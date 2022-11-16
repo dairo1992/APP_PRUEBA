@@ -1,0 +1,48 @@
+<div class="alert alert-danger" id="message" role="alert" *ngIf="messageError != ''">
+    {{messageError}}
+</div>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Consultar usuarios</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <form class="example-form">
+            <div>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="nombre" name="formSearch" [(ngModel)]="formSearch" autocomplete="off">
+                </mat-form-field>
+                <button mat-raised-button color="primary" class="example-button-row" (click)="Search()">BUSCAR</button>
+            </div>
+        </form>
+
+        <div class="table-responsive p-3" *ngIf="listItems.length > 0">
+            <h1 class="h3 mb-1 fw-normal p-3 fw-6">Listado de Personas</h1>
+            <table class="table table-responsive">
+                <thead class="bg-light text-black center">
+                    <tr>
+                        <th>Nombre de Usuario</th>
+                        <th>Numero de Registro</th>
+                        <th>Opcion</th>
+                    </tr>
+                </thead>
+                <tbody class="text-light center">
+                    <tr
+                        *ngFor="let user of listItems | paginate: { itemsPerPage: 10, currentPage: pages } let i = index">
+                        <td>{{user.login}}</td>
+                        <td>{{user.id}}</td>
+                        <td (click)="userProfile(user.login)" style="cursor:pointer">
+                            <mat-icon>visibility</mat-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+
+                <pagination-controls class="center" (pageChange)="pages = $event"></pagination-controls>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
